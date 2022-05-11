@@ -123,18 +123,18 @@ variable "aci_subnet_address_prefix" {
 
 variable "use_existing_private_dns_zones_from_remote_subscription" {
   type        = bool
-  description = "Determines if the Enterprise Scale for Analytics Management Zone will utilize pre-existing Private DNS Zones, located in a remote subscription (likely in the Connectivity Platform Landing Zone), for PrivateLink resources. This variable's value should only be true when the variable 'deploy_privatelink_dns_zones_in_dmlz' is set to false"
+  description = "Determines if the resources created by this deployment will utilize pre-existing Private DNS Zones, located in a remote subscription (likely in the Connectivity Platform Landing Zone), for PrivateLink resources. This variable's value should only be true when the variable 'deploy_privatelink_dns_zones_in_dmlz' is set to false"
   default     = true
 }
 
 variable "existing_private_dns_zone_resource_group_name" {
   type        = string
-  description = "The Resource Group name in which exist the Private DNS Zones that will be authoritative.  This should be null if var: use_existing_private_dns_zones_from_remote_subscription = false."
+  description = "Existing resource group where Azure Private DNS Zones are deployed.  This should be null if var: use_existing_private_dns_zones_from_remote_subscription = false."
 }
 
 variable "privatelink_dns_zone_names" {
   type        = list(string)
-  description = "A nearly complete list of all Private DNS Zone names utilized by Azure Private Endpoints"
+  description = "A list of Private DNS Zone names utilized by Azure Private Endpoints"
   default     = []
 }
 
@@ -227,7 +227,7 @@ variable "adf_enable_public_network" {
 
 variable "adf_managed_virtual_network_enabled" {
   type        = bool
-  description = ""
+  description = "Use Azure Data Factory with an Azure managed virtual network."
   default     = true
 }
 
@@ -244,7 +244,7 @@ variable "adf_self_hosted_runtime_admin_password" {
 
 variable "adf_self_hosted_runtime_admin_username" {
   type    = string
-  default = "shirVmAdmin"
+  default = "adminuser"
 }
 
 variable "adf_self_hosted_runtime_vmss_instance_count" {
@@ -263,7 +263,7 @@ variable "azure_devops_organization_name" {
 
 variable "azure_devops_devops_agent_pool_name" {
   type    = string
-  default = ""
+  default = "ACI_Pool"
 }
 
 variable "devops_pat_token" {
@@ -287,7 +287,7 @@ variable "ado_agent_container_tag" {
 }
 
 variable "devops_agent_dockerfile_path" {
-
+  type = string
 }
 
 variable "devops_agent_instance_count" {
