@@ -1,0 +1,9 @@
+azurecreds*
+provider.tf
+input_sensitive.tfvars
+.terraform.lock.hcl
+.terraform*
+*sensitive*
+terraform_sensitive.tf
+main.tfplan
+*tfplan
