@@ -126,12 +126,13 @@ devops_agent_instance_count                 = 2
 ##################################################
 ## SENSITIVE
 ##################################################
-#adf_self_hosted_runtime_admin_username =
-#adf_self_hosted_runtime_admin_password =
-#devops_pat_token                          =
-#azure_devops_organization_name                  =
+#adf_self_hosted_runtime_admin_username         =
+#adf_self_hosted_runtime_admin_password         =
+#devops_pat_token                               =
+#azure_devops_organization_name                 =
+#azure_devops_devops_agent_pool_name            = 
 #sp_client_id                                   =
 #sp_client_secret                               =
-#ado_agent_container_name                        =
-#ado_agent_container_tag                         =
-#connectivity_hub_virtual_network_id =
+#ado_agent_container_name                       =
+#ado_agent_container_tag                        =
+#connectivity_hub_virtual_network_id            =
