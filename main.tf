@@ -1,7 +1,5 @@
 data "azurerm_client_config" "tfazconfig" {}
 
-
-
 module "data-mgmt-landing-zone-resource-groups-future-expansion" {
   source               = "./modules/extra_resource_groups"
   common_module_params = local.common_module_params
@@ -84,5 +82,3 @@ module "consumption-module" {
   devops_agent_params       = local.devops_agent_params
   consumption_module_params = local.consumption_module_params
 }
-
-

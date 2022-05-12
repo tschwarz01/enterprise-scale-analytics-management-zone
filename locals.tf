@@ -8,8 +8,6 @@ locals {
   }
 }
 
-
-
 locals {
   common_module_params = {
     environment     = var.environment
@@ -34,6 +32,10 @@ locals {
       shared_services_resource_group    = "rg-${local.resource_prefix}-shared-services"
     }
   }
+}
+
+
+locals {
   network_module_params = {
     network_resource_group               = local.common_module_params.resource_groups.network_resource_group
     peer_with_connectivity_hub           = var.peer_with_connectivity_hub
@@ -113,8 +115,8 @@ locals {
     devops_organization_name              = var.azure_devops_organization_name
     acr_admin_password                    = module.consumption-module.consumption_module_output.acr_admin_password
     acr_admin_username                    = module.consumption-module.consumption_module_output.acr_admin_username
-    log_analytics_workspace_id            = module.management-module.log_analytics_module_output.log_analytics_workspace_id
-    log_analytics_workspace_key           = module.management-module.log_analytics_module_output.log_analytics_workspace_key
+    log_analytics_workspace_id            = module.management-module.log_analytics_workspace_id
+    log_analytics_workspace_key           = module.management-module.log_analytics_primary_shared_key
     aci_network_profile_id                = module.network-services-module.core_network_output.aci_network_profile_id
   }
 }
@@ -128,8 +130,10 @@ locals {
   #existing_dns_zone_map = try({ for key, value in module.use-existing-private-dns-zones[0].private-dns-zones : key => { id = value.id } if length(regexall("privatelink", value.name)) > 0 },null)
 }
 
+
 /*
 locals {
   private_dns_zone_ids = coalesce(module.use-existing-private-dns-zones[0].private-dns-zones["privatelink.vaultcore.azure.net"].id, module.deploy-private-dns-zones[0].private-dns-zones["privatelink.vaultcore.azure.net"].id, "")
 }
+
 */

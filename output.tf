@@ -1,3 +1,5 @@
-output "docker_results" {
-  value = module.consumption-module.docker_results
+/*
+output "adf" {
+  value = local.combined_objects_data_factory
 }
+*/

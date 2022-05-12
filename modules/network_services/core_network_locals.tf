@@ -55,7 +55,7 @@ locals {
     dmlz-to-connectivity-hub = {
       name                         = "${var.common_module_params.resource_prefix}-dmlz-to-hub-peering"
       resource_group_name          = var.network_module_params.network_resource_group
-      virtual_network_name         = azurerm_virtual_network.dmlz-virtual-network.name
+      virtual_network_name         = azurerm_virtual_network.vnet.name
       remote_virtual_network_id    = var.network_module_params.connectivity_hub_virtual_network_id
       peer_use_remote_gateways     = true
       allow_virtual_network_access = true
@@ -66,7 +66,7 @@ locals {
       name                         = "${var.common_module_params.resource_prefix}-hub-to-dmlz-peering"
       resource_group_name          = local.connectivity_hub_vnet_resource_group_name
       virtual_network_name         = local.connectivity_hub_vnet_name
-      remote_virtual_network_id    = azurerm_virtual_network.dmlz-virtual-network.id
+      remote_virtual_network_id    = azurerm_virtual_network.vnet.id
       allow_virtual_network_access = true
       allow-forwarded-traffic      = true
       peer_allow_gateway_transit   = true

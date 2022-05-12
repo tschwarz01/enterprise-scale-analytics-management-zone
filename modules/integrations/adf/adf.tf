@@ -46,7 +46,7 @@ resource "azurerm_private_endpoint" "privateEndpoint" {
   ]
 }
 
-output "dataFactoryModuleOutput" {
+output "data-factory-moduleOutput" {
   value = {
     dataFactoryId = azurerm_data_factory.dataFactory.id
   }

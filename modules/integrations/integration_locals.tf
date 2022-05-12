@@ -4,7 +4,7 @@ locals {
   data_factory_module_params = {
     name                             = "${var.common_module_params.resource_prefix}-shared-data-factory"
     location                         = var.common_module_params.location
-    resource_group_name              = azurerm_resource_group.integration-resource-group.name
+    resource_group_name              = azurerm_resource_group.rg.name
     publicNetworkEnabled             = var.integration_module_params.adf_enable_public_network
     managedVnetEnabled               = var.integration_module_params.adf_managed_virtual_network_enabled
     tags                             = var.common_module_params.tags
@@ -20,7 +20,7 @@ locals {
     adf_shir_vmss_username       = var.adf_shir_module_params.adf_shir_vmss_username
     adf_shir_vmss_password       = var.adf_shir_module_params.adf_shir_vmss_password
     adf_shir_vmss_instance_count = var.adf_shir_module_params.adf_shir_vmss_instance_count
-    dataFactoryId                = module.dataFactoryModule[0].dataFactoryModuleOutput.dataFactoryId
+    dataFactoryId                = module.data-factory-module[0].data-factory-moduleOutput.dataFactoryId
   }
 
 }

@@ -1,3 +1,19 @@
+variable "global_settings" {
+  default = {
+    passthrough    = false
+    random_length  = 4
+    default_region = "region1"
+    regions = {
+      region1 = "southcentralus"
+      region2 = "centralus"
+    }
+  }
+}
+
+variable "resource_groups" {
+  default = {}
+}
+
 variable "tenant_id" {
   type        = string
   description = "Azure Active Directory Tenant ID"
@@ -7,12 +23,7 @@ variable "tenant_id" {
 variable "environment" {
   type        = string
   description = "The release stage of the environment"
-  default     = "dev"
-
-  validation {
-    condition     = contains(["dev", "tst", "prd"], var.environment)
-    error_message = "Valid values for var: environment are (dev, tst, prd)."
-  }
+  default     = "dmlz"
 }
 
 variable "prefix" {
@@ -295,3 +306,6 @@ variable "devops_agent_instance_count" {
   description = "The number of Azure Container Instances to use as Azure DevOps Agents."
   default     = 2
 }
+
+#######################################################
+

@@ -1,49 +1,54 @@
-resource "azurerm_resource_group" "management-resource-group" {
-  name     = var.common_module_params.resource_groups.management_resource_group
-  location = var.common_module_params.location
-}
-
-resource "azurerm_automation_account" "mgmt-automation-acct" {
-  depends_on = [
-    azurerm_resource_group.management-resource-group
-  ]
+resource "azurerm_automation_account" "automation-acct" {
   location            = var.common_module_params.location
   name                = var.management_module_params.automation_account_name
-  resource_group_name = azurerm_resource_group.management-resource-group.name
+  resource_group_name = var.common_module_params.resource_groups.management_resource_group
   sku_name            = "Basic"
 }
 
-
-resource "azurerm_log_analytics_workspace" "logmgmt-log-analytics-ws" {
-  depends_on = [
-    azurerm_resource_group.management-resource-group
-  ]
+resource "azurerm_log_analytics_workspace" "law" {
   location            = var.common_module_params.location
   name                = var.management_module_params.log_analytics_workspace_name
   sku                 = var.management_module_params.log_analytics_sku
   retention_in_days   = var.management_module_params.log_analytics_log_retention_days
-  resource_group_name = azurerm_resource_group.management-resource-group.name
+  resource_group_name = var.common_module_params.resource_groups.management_resource_group
 }
 
-resource "azurerm_log_analytics_linked_service" "logmgmt-log-analytics-automation-linked-service" {
+resource "azurerm_log_analytics_linked_service" "law-linked-service" {
   depends_on = [
-    azurerm_log_analytics_workspace.logmgmt-log-analytics-ws,
-    azurerm_automation_account.mgmt-automation-acct
+    azurerm_log_analytics_workspace.law,
+    azurerm_automation_account.automation-acct
   ]
-  resource_group_name = azurerm_resource_group.management-resource-group.name
-  workspace_id        = azurerm_log_analytics_workspace.logmgmt-log-analytics-ws.id
-  read_access_id      = azurerm_automation_account.mgmt-automation-acct.id
+  resource_group_name = var.common_module_params.resource_groups.management_resource_group
+  workspace_id        = azurerm_log_analytics_workspace.law.id
+  read_access_id      = azurerm_automation_account.automation-acct.id
 }
 
-output "log_analytics_module_output" {
-  value = {
-    log_analytics_name          = "${azurerm_log_analytics_workspace.logmgmt-log-analytics-ws.name}"
-    logAnalyticsId              = "${azurerm_log_analytics_workspace.logmgmt-log-analytics-ws.id}"
-    log_analytics_workspace_id  = "${azurerm_log_analytics_workspace.logmgmt-log-analytics-ws.workspace_id}"
-    log_analytics_workspace_key = "${azurerm_log_analytics_workspace.logmgmt-log-analytics-ws.primary_shared_key}"
-  }
+output "law_name" {
+  value = azurerm_log_analytics_workspace.law.name
 }
 
+output "law_location" {
+  value = azurerm_log_analytics_workspace.law.location
+}
+
+output "law_id" {
+  value = azurerm_log_analytics_workspace.law.id
+}
+
+output "law_workspace_id" {
+  value = azurerm_log_analytics_workspace.law.workspace_id
+}
+
+output "law_resource_group_name" {
+  value = azurerm_log_analytics_workspace.law.resource_group_name
+}
+
+output "law_primary_shared_key" {
+  value = azurerm_log_analytics_workspace.law.primary_shared_key
+}
+
+
+/*
 data "azurerm_policy_definition" "example" {
   name = "2465583e-4e78-4c15-b6be-a36cbc7c8b0f"
 }
@@ -51,7 +56,6 @@ data "azurerm_policy_definition" "example" {
 data "azurerm_subscription" "primary" {
 }
 
-/*
 resource "azurerm_subscription_policy_assignment" "azPolicyActivityLog" {
   name                 = "2465583e-4e78-4c15-b6be-a36cbc7c8b0f"
   subscription_id      = "/subscriptions/${var.common_module_params.subscriptionId}"
@@ -89,8 +93,8 @@ resource "azurerm_subscription_policy_remediation" "policyRemediation001" {
   policy_assignment_id    = azurerm_subscription_policy_assignment.azPolicyActivityLog.id
   resource_discovery_mode = "ReEvaluateCompliance"
   depends_on = [
-    azurerm_log_analytics_workspace.logmgmt-log-analytics-ws,
-    azurerm_log_analytics_linked_service.logmgmt-log-analytics-automation-linked-service,
+    azurerm_log_analytics_workspace.law,
+    azurerm_log_analytics_linked_service.law-linked-service,
     azurerm_subscription_policy_assignment.azPolicyActivityLog,
     azurerm_role_assignment.policyRoleAssignment001,
     azurerm_role_assignment.policyRoleAssignment002
